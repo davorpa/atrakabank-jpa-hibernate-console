@@ -2,6 +2,12 @@
 
 Monitorización y control de atracos a sucursales bancarias.
 
+<div align="center" markdown="1">
+
+![La monitorizacin de atracos. Diagramas](screenshot.png)
+
+</div>
+
 ## Requisitos
 
 En los últimos años, el número de robos, atracos y ataques en general a distintas sucursales bancarias ha ascendido notablemente. Para ello nos encargan una aplicación informática para la monitorización y control.
