@@ -32,7 +32,12 @@ indent_size = 2
 quote_type = double
 
 ; Java/Kotlin and it enviroment files -
-[*.{java,kt,groovy,properties,gradle}]
+[*.{java,kt,groovy,gradle}]
+indent_style = tab
+indent_size = 4
+quote_type = double
+
+[*.{properties}]
 indent_style = space
 indent_size = 4
 quote_type = double
