@@ -148,11 +148,6 @@ CREATE TABLE IF NOT EXISTS `CONTRATO` (
     `FECHA_FIN`         DATE
                         COMMENT "Fecha de fin de la relación contractual.",
 
-    `PERMISO_ARMAS`     BOOLEAN
-                        NOT NULL
-                        DEFAULT 0
-                        COMMENT "Flag que indica si el contrato permite armas. 0 será FALSE y 1 será TRUE.",
-
     `ID_SUCURSAL`       BIGINT UNSIGNED
                         NOT NULL
                         COMMENT "Identificador de la sucursal. Véase SUCURSAL.",
