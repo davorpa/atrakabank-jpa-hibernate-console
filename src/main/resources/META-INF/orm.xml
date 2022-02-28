@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://java.sun.com/xml/ns/persistence/orm
+        http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
+    version="2.0">
+
+    <!-- Banco queries -->
+    <named-query name="Banco.findByCodigo">
+        <query>select b from Banco b where b.codigo = ?1</query>
+    </named-query>
+
+
+
+    <!-- Sucursal queries -->
+    <named-query name="Sucursal.findByCodigoBanco">
+        <query>select s from Sucursal s where s.banco.codigo = ?1</query>
+    </named-query>
+
+    <named-query name="Sucursal.findByCodigo">
+        <query>select s from Sucursal s where s.codigo = ?1</query>
+    </named-query>
+
+</entity-mappings>

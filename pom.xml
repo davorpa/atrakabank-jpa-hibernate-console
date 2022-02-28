@@ -1,5 +1,7 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>es.seresco.cursojee</groupId>
@@ -42,6 +44,14 @@
                 <directory>src/main/resources</directory>
                 <filtering>false</filtering>
             </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>META-INF/persistence.xml</include>
+                    <include>META-INF/orm.xml</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
         </resources>
 
         <plugins>
@@ -76,6 +86,17 @@
         <lombok.version>1.18.22</lombok.version>
         <hibernate.version>5.6.4.Final</hibernate.version>
         <mysql.version>8.0.27</mysql.version>
+
+
+        <!-- app properties -->
+        <persistence.jdbc.driver>com.mysql.cj.jdbc.Driver</persistence.jdbc.driver>
+        <persistence.jdbc.url>jdbc:mysql://localhost:3306/EjercicioAtracadores</persistence.jdbc.url>
+        <persistence.jdbc.user>root</persistence.jdbc.user>
+        <persistence.jdbc.password>root</persistence.jdbc.password>
+        <persistence.hibernate.dialect>org.hibernate.dialect.MySQL8Dialect</persistence.hibernate.dialect>
+        <persistence.hibernate.dialect-storage_engine>innodb</persistence.hibernate.dialect-storage_engine>
+        <persistence.hibernate.hbm2ddl.auto>create-drop</persistence.hibernate.hbm2ddl.auto>
+        <persistence.hibernate.show_sql>true</persistence.hibernate.show_sql>
     </properties>
 
 </project>

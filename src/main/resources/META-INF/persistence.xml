@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+            http://xmlns.jcp.org/xml/ns/persistence
+            http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+    version="2.1">
+
+    <persistence-unit name="persistencia">
+        <description> Ejemplo1 curso JEE</description>
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="${persistence.jdbc.driver}" />
+            <property name="javax.persistence.jdbc.url" value="${persistence.jdbc.url}" />
+            <property name="javax.persistence.jdbc.user" value="${persistence.jdbc.user}" />
+            <property name="javax.persistence.jdbc.password" value="${persistence.jdbc.password}" />
+            <property name="hibernate.show_sql" value="${persistence.hibernate.show_sql}" />
+            <property name="hibernate.hbm2ddl.auto" value="${persistence.hibernate.hbm2ddl.auto}" />
+            <property name="hibernate.dialect" value="${persistence.hibernate.dialect}" />
+            <property name="hibernate.dialect.storage_engine" value="${persistence.hibernate.dialect-storage_engine}" />
+        </properties>
+    </persistence-unit>
+
+</persistence>
