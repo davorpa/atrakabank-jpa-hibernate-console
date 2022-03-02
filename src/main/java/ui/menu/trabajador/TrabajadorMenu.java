@@ -1,20 +1,15 @@
-package ui.menu;
+package ui.menu.trabajador;
 
 import static util.console.Console.println;
 
-import ui.menu.administrador.AdministradorMenu;
-import ui.menu.ladron.LadronMenu;
-import ui.menu.trabajador.TrabajadorMenu;
 import util.menu.BaseMenu;
 
-public class MainMenu extends BaseMenu {
+public class TrabajadorMenu extends BaseMenu {
 
-	public MainMenu() {
+	public TrabajadorMenu() {
 		menuOptions = new Object[][] {
 				// Label - ActionClazz
-				{ "Administrador", AdministradorMenu.class },
-				{ "Trabajador", TrabajadorMenu.class },
-				{ "Ladrón", LadronMenu.class }
+				//{ "Menu option", MiAction.class }
 		};
 	}
 
@@ -22,7 +17,7 @@ public class MainMenu extends BaseMenu {
 	protected void printMenuHeader() {
 		super.printMenuHeader();
 		println("╔═════════════════════════════════════════════════════════════════════════════╗");
-		println("╠═══╣►►►►►►►►►►        MENÚ PRINCIPAL                           ◄◄◄◄◄◄◄◄◄◄╠═══╣");
+		println("╠═══╣►►►►►►►►►►        MENÚ TRABAJADOR                          ◄◄◄◄◄◄◄◄◄◄╠═══╣");
 		println("╚═════════════════════════════════════════════════════════════════════════════╝");
 	}
 
