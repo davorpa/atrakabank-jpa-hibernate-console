@@ -2,6 +2,7 @@ package ui.menu.trabajador;
 
 import static util.console.Console.println;
 
+import ui.menu.administrador.action.VerSucursalesAction;
 import util.menu.BaseMenu;
 
 public class TrabajadorMenu extends BaseMenu {
@@ -9,7 +10,7 @@ public class TrabajadorMenu extends BaseMenu {
 	public TrabajadorMenu() {
 		menuOptions = new Object[][] {
 				// Label - ActionClazz
-				//{ "Menu option", MiAction.class }
+				{ "Ver las sucursales de un banco", VerSucursalesAction.class }
 		};
 	}
 
