@@ -1,6 +1,7 @@
 package business.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import business.dao.DelincuenteDAO;
 import business.model.Delincuente;
@@ -29,6 +30,16 @@ public class DelincuenteService {
 
 	public Delincuente findById(final Long idDelincuente) {
 		return delincuenteDAO.findById(idDelincuente);
+	}
+
+	/**
+	 * Obtiene el detalle de un delincuente a partir de su clave natural.
+	 *
+	 * @param codigo identificador alfanumérico unequívoco.
+	 * @return nunca {@code null}, {@code Optional#empty()} si no hay resultados
+	 */
+	public Optional<Delincuente> findByCodigo(final String codigo) {
+		return delincuenteDAO.findByCodigo(codigo);
 	}
 
 	public Delincuente insert(final Delincuente delincuente) {

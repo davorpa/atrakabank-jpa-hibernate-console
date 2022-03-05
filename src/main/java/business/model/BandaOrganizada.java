@@ -1,11 +1,15 @@
 package business.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import business.model.RelationalHelper.Afiliarse;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -42,6 +47,7 @@ public class BandaOrganizada implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID", nullable = false, insertable = false, updatable = false, columnDefinition = "bigint unsigned")
 	@EqualsAndHashCode.Include
+	@ToString.Exclude
 	@Setter(AccessLevel.PACKAGE)
 	private Long id;
 
@@ -54,8 +60,9 @@ public class BandaOrganizada implements Serializable {
 
 	@ToString.Exclude
 	@Getter(AccessLevel.NONE)
-	@OneToMany(mappedBy = "bandaOrganizada")
-	private List<Delincuente> delincuentes = new ArrayList<>();
+	@OneToMany(mappedBy = "bandaOrganizada", fetch = FetchType.LAZY,
+			cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	private Set<AfiliacionBandaDelincuente> afiliaciones;
 
 
 	public BandaOrganizada(final @NonNull String codigo, final int numMiembros) {
@@ -69,13 +76,65 @@ public class BandaOrganizada implements Serializable {
 	// Metodos heredados
 	//
 
+	@Override
+	public String toString() {
+		return String.format("BandaOrganizada(codigo=%s, numMiembros=%s, afiliaciones=%s)",
+				getCodigo(), getNumMiembros(), getDelincuentes().size());
+	}
 
+	/**
+	 * Dos objetos son parecidos si siendo del mismo tipo,
+	 * tienen la misma clave natural.
+	 * @param obj el objeto a comparar
+	 * @return
+	 * @see #getCodigo()
+	 */
+	public boolean same(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BandaOrganizada other = (BandaOrganizada) obj;
+		return Objects.equals(getCodigo(), other.getCodigo());
+	}
 
 	//
 	// Metodos delegados
 	//
 
+	/**
+	 * Obtiene los delincuentes que se han afiliado como miembros.
+	 *
+	 * @return nunca {@code null}.
+	 */
+	@NonNull
+	public Set<Delincuente> getDelincuentes() {
+		return _getAfiliaciones().stream()
+				.filter(Objects::nonNull)
+				.map(AfiliacionBandaDelincuente::getDelincuente)
+				.filter(Objects::nonNull)
+				.collect(Collectors.toCollection(LinkedHashSet::new));
+	}
 
+	/**
+	 * Busca una afiliacion por su clave natural dentro de su registro de afiliaciones.
+	 *
+	 * @param search registro a buscar
+	 * @return {@code null} si no hay resultados.
+	 * @see AfiliacionBandaDelincuente#same
+	 */
+	public AfiliacionBandaDelincuente findAfiliacion(
+			final AfiliacionBandaDelincuente search)
+	{
+		for (final AfiliacionBandaDelincuente afiliacion : _getAfiliaciones()) {
+			if (afiliacion.same(search)) {
+				return afiliacion;
+			}
+		}
+		return null;
+	}
 
 	//
 	// Getters y setters
@@ -87,29 +146,64 @@ public class BandaOrganizada implements Serializable {
 	// Mantener la inmutabilidad y bidireccionalidad de las relaciones y value types
 	//
 
-	@NonNull
-	public List<Delincuente> getDelincuentes() {
-		return new ArrayList<>(delincuentes);
+	/**
+	 * Obtiene las afiliaciones registradas.
+	 *
+	 * @return nunca {@code null}.
+	 */
+	Set<AfiliacionBandaDelincuente> _getAfiliaciones() {
+		if (afiliaciones == null) {
+			this.afiliaciones = new LinkedHashSet<>();
+		}
+		return this.afiliaciones;
 	}
 
-	@NonNull
-	List<Delincuente> _getDelincuentes() {
-		return this.delincuentes;
+	/**
+	 * Obtiene las afiliaciones registradas.
+	 *
+	 * @return nunca {@code null}.
+	 */
+	public Set<AfiliacionBandaDelincuente> getAfiliaciones() {
+		return new LinkedHashSet<>(_getAfiliaciones());
 	}
 
-	public void setDelincuentes(List<Delincuente> delincuentes) {
-		this.delincuentes = delincuentes;
-		this.numMiembros = delincuentes.size();
+	/**
+	 * Obtiene las afiliaciones registradas.
+	 *
+	 * @return nunca {@code null}.
+	 */
+	public void setAfiliaciones(final Set<AfiliacionBandaDelincuente> afiliaciones) {
+		this.afiliaciones = afiliaciones;
+		this.numMiembros = getDelincuentes().size();
 	}
 
-	public void addDelincuente(Delincuente delincuente) {
-		RelationalHelper.Afiliarse.link(this, delincuente);
+	/**
+	 * Agrega un nuevo delincuente a su registro de afiliaciones.
+	 *
+	 * @param delincuente nunca {@code null}.
+	 * @return el registro de afiliación con los datos seteados, nunca {@code null}.
+	 * @see Afiliarse#link(BandaOrganizada, Delincuente)
+	 */
+	public AfiliacionBandaDelincuente addDelincuente(final Delincuente delincuente) {
+		AfiliacionBandaDelincuente afiliacion = RelationalHelper.Afiliarse.link(this, delincuente);
 		this.numMiembros++;
+		return afiliacion;
 	}
 
-	public void removeDelincuente(final @NonNull Delincuente delincuente) {
-		RelationalHelper.Afiliarse.unlink(this, delincuente);
-		this.numMiembros--;
+	/**
+	 * Elimina por completo un delincuente de su registro de afiliaciones.
+	 *
+	 * @param delincuente nunca {@code null}.
+	 * @return {@code true} si la estructura de datos ha cambiado debido a
+	 *         dicha operación.
+	 * @see Afiliarse#unlink(BandaOrganizada, Delincuente)
+	 */
+	public boolean removeDelincuente(final Delincuente delincuente) {
+		boolean dirty = RelationalHelper.Afiliarse.unlink(this, delincuente);
+		if (dirty) {
+			this.numMiembros--;
+		}
+		return dirty;
 	}
 
 }
