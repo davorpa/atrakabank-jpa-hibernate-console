@@ -132,8 +132,8 @@
         <persistence.jdbc.password>root</persistence.jdbc.password>
         <persistence.hibernate.dialect>org.hibernate.dialect.MySQL8Dialect</persistence.hibernate.dialect>
         <persistence.hibernate.dialect-storage_engine>innodb</persistence.hibernate.dialect-storage_engine>
-        <persistence.hibernate.hbm2ddl.auto>create-drop</persistence.hibernate.hbm2ddl.auto>
-        <persistence.hibernate.show_sql>true</persistence.hibernate.show_sql>
+        <persistence.hibernate.hbm2ddl.auto>none</persistence.hibernate.hbm2ddl.auto>
+        <persistence.hibernate.show_sql>false</persistence.hibernate.show_sql>
     </properties>
 
 </project>
