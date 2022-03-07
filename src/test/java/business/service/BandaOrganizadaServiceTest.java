@@ -1,6 +1,7 @@
 package business.service;
 
 import static java.lang.String.format;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -8,6 +9,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -40,7 +42,7 @@ public class BandaOrganizadaServiceTest extends SampleBaseTestCase {
 		final BandaOrganizada mockedBanda = spy(banda);
 		when(mockedBanda.getId()).thenReturn(bandaId);
 
-		when(dao.findById(bandaId)).thenReturn(mockedBanda);
+		when(dao.findOne(anyLong())).thenReturn(Optional.of(mockedBanda));
 
 		// Do
 		final BandaOrganizada result = service.findById(bandaId);
@@ -55,7 +57,7 @@ public class BandaOrganizadaServiceTest extends SampleBaseTestCase {
 		Assert.assertEquals(expectedNumMiembros, numMiembros - expectedDelinquentesSize);
 		Assert.assertEquals(expectedDelinquentesSize, delinquentesSize);
 
-		verify(dao, times(1)).findById(bandaId);
+		verify(dao, times(1)).findOne(bandaId);
 		verifyNoMoreInteractions(dao);
 	}
 

@@ -29,7 +29,7 @@ public class BandaOrganizadaService {
 	}
 
 	public BandaOrganizada findById(Long id) {
-		return bandaOrganizadaDAO.findById(id);
+		return bandaOrganizadaDAO.findOne(id).orElse(null);
 	}
 
 	/**
@@ -39,11 +39,11 @@ public class BandaOrganizadaService {
 	 * @return nunca {@code null}, {@code Optional#empty()} si no hay resultados
 	 */
 	public Optional<BandaOrganizada> findByCodigo(String codigo) {
-		return bandaOrganizadaDAO.findByCodigo(codigo);
+		return bandaOrganizadaDAO.findOneByCodigo(codigo);
 	}
 
 	public BandaOrganizada insert(BandaOrganizada banda) {
-		return bandaOrganizadaDAO.insert(banda);
+		return bandaOrganizadaDAO.create(banda);
 	}
 
 	public void update(BandaOrganizada banda) {
@@ -51,7 +51,7 @@ public class BandaOrganizadaService {
 	}
 
 	public void delete(BandaOrganizada banda) {
-		bandaOrganizadaDAO.remove(banda);
+		bandaOrganizadaDAO.delete(banda);
 	}
 
 }

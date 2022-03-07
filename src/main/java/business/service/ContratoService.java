@@ -28,11 +28,11 @@ public class ContratoService {
 	}
 
 	public Contrato findById(final Long idContrato) {
-		return contratoDAO.findById(idContrato);
+		return contratoDAO.findOne(idContrato).orElse(null);
 	}
 
 	public Contrato insert(final Contrato contrato) {
-		return contratoDAO.insert(contrato);
+		return contratoDAO.create(contrato);
 	}
 
 	public void update(final Contrato contrato) {
@@ -40,7 +40,7 @@ public class ContratoService {
 	}
 
 	public void delete(final Contrato contrato) {
-		contratoDAO.remove(contrato);
+		contratoDAO.delete(contrato);
 	}
 
 }

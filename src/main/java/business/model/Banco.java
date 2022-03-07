@@ -1,6 +1,5 @@
 package business.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +32,7 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Banco implements Serializable {
+public class Banco implements IEntity<Long> {
 
 	private static final long serialVersionUID = -5303145511746498228L;
 

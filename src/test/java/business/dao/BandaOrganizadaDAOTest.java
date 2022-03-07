@@ -6,6 +6,8 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 import java.util.Collection;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -32,10 +34,10 @@ public class BandaOrganizadaDAOTest extends SampleBaseTestCase {
 		final BandaOrganizada mockedBanda = spy(banda);
 		when(mockedBanda.getId()).thenReturn(bandaId);
 
-		when(dao.findById(anyLong())).thenReturn(mockedBanda);
+		when(dao.findOne(anyLong())).thenReturn(Optional.of(mockedBanda));
 
 		// Do
-		final BandaOrganizada result = dao.findById(bandaId);
+		final BandaOrganizada result = dao.findOne(bandaId).orElseThrow(NoSuchElementException::new);
 
 		int numMiembros = result.getNumMiembros();
 		Collection<Delincuente> delinquentes = result.getDelincuentes();

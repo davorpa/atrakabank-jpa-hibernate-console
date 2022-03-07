@@ -28,27 +28,27 @@ public class SucursalService {
 	}
 
 	public Sucursal findById(Long id) {
-		return sucursalDAO.findById(id);
+		return sucursalDAO.findOne(id).orElse(null);
 	}
 
-	public List<Sucursal> findByCodigoBanco(String codigo) {
-		return sucursalDAO.findByCodigoBanco(codigo);
+	public List<Sucursal> findAllByCodigoBanco(String codigo) {
+		return sucursalDAO.findAllByCodigoBanco(codigo);
 	}
 
 	public Sucursal findByCodigo(String codigo) {
-		return sucursalDAO.findByCodigo(codigo);
+		return sucursalDAO.findOneByCodigo(codigo).orElse(null);
 	}
 
 	public Sucursal insert(Sucursal sucursal) {
-		return sucursalDAO.insert(sucursal);
+		return sucursalDAO.create(sucursal);
 	}
 
-	public void update(Sucursal sucursal) {
-		sucursalDAO.update(sucursal);
+	public Sucursal update(Sucursal sucursal) {
+		return sucursalDAO.update(sucursal);
 	}
 
 	public void delete(Sucursal sucursal) {
-		sucursalDAO.remove(sucursal);
+		sucursalDAO.delete(sucursal);
 	}
 
 }

@@ -1,6 +1,5 @@
 package business.dao;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -8,61 +7,11 @@ import java.util.Set;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 
 import business.model.BandaOrganizada;
 import business.model.Delincuente;
-import lombok.NonNull;
 
-public class BandaOrganizadaDAO extends AbstractRepositoryDAO<BandaOrganizada> {
-
-	@Override
-	public @NonNull List<BandaOrganizada> findAll() {
-		return run(em -> {
-			final CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-			final CriteriaQuery<BandaOrganizada> criteriaQuery =
-					criteriaBuilder.createQuery(BandaOrganizada.class);
-
-			final Root<BandaOrganizada> root = criteriaQuery.from(BandaOrganizada.class);
-			criteriaQuery.select(root);
-
-			final TypedQuery<BandaOrganizada> query = em.createQuery(criteriaQuery);
-			return query.getResultList();
-		});
-	}
-
-	@Override
-	public BandaOrganizada findById(final @NonNull Long id) {
-		return run(em -> {
-			return em.find(BandaOrganizada.class, id);
-		});
-	}
-
-	@Override
-	public BandaOrganizada insert(final @NonNull BandaOrganizada entity) {
-		return runInTransaction(em -> {
-			em.persist(entity);
-			return entity;
-		});
-	}
-
-	@Override
-	public @NonNull BandaOrganizada update(final @NonNull BandaOrganizada entity) {
-		return runInTransaction(em -> {
-			return em.merge(entity);
-		});
-	}
-
-	@Override
-	public void remove(final @NonNull BandaOrganizada entity) {
-		runInTransaction(em -> {
-			em.remove(entity);
-		});
-	}
-
-
+public class BandaOrganizadaDAO extends AbstractRepositoryDAO<BandaOrganizada, Long> {
 
 	/**
 	 * Obtiene el detalle de la entidad a partir de su clave natural.
@@ -72,12 +21,12 @@ public class BandaOrganizadaDAO extends AbstractRepositoryDAO<BandaOrganizada> {
 	 * @throws NonUniqueResultException si la consulta devuelve más de un resultado
 	 * @see TypedQuery#getSingleResult()
 	 */
-	public Optional<BandaOrganizada> findByCodigo(final String codigo) {
+	public Optional<BandaOrganizada> findOneByCodigo(final String codigo) {
 		Objects.requireNonNull(codigo, "`codigo` must be non-null");
 		return run(em -> {
 			try {
 				return Optional.ofNullable(em
-						.createNamedQuery("BandaOrganizada.findByCodigo", BandaOrganizada.class)
+						.createNamedQuery("BandaOrganizada.findOneByCodigo", BandaOrganizada.class)
 						.setParameter(1, codigo)
 						.getSingleResult());
 			} catch (NoResultException e) {
@@ -97,8 +46,7 @@ public class BandaOrganizadaDAO extends AbstractRepositoryDAO<BandaOrganizada> {
 	public Optional<Set<Delincuente>> getMiembrosOf(final Long bandaId) {
 		Objects.requireNonNull(bandaId, "`bandaId` must be non-null");
 		// TODO: PERFORMANCE. use JQL or CriteriaQuery instead of findById + stream projection. Then, move to DelincuenteDAO
-		BandaOrganizada banda = findById(bandaId);
-		return Optional.ofNullable(banda).map(BandaOrganizada::getDelincuentes);
+		return findOne(bandaId).map(BandaOrganizada::getDelincuentes);
 	}
 
 	/**
@@ -112,8 +60,7 @@ public class BandaOrganizadaDAO extends AbstractRepositoryDAO<BandaOrganizada> {
 	public Optional<Set<Delincuente>> getMiembrosOf(final String bandaCodigo) {
 		Objects.requireNonNull(bandaCodigo, "`bandaCodigo` must be non-null");
 		// TODO: PERFORMANCE. use JQL or CriteriaQuery instead of findByCode + stream projection. Then, move to DelincuenteDAO
-		BandaOrganizada banda = findByCodigo(bandaCodigo).orElse(null);
-		return Optional.ofNullable(banda).map(BandaOrganizada::getDelincuentes);
+		return findOneByCodigo(bandaCodigo).map(BandaOrganizada::getDelincuentes);
 	}
 
 }

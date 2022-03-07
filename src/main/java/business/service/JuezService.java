@@ -28,11 +28,11 @@ public class JuezService {
 	}
 
 	public Juez findById(final Long id) {
-		return juezDAO.findById(id);
+		return juezDAO.findOne(id).orElse(null);
 	}
 
 	public Juez insert(final Juez juez) {
-		return juezDAO.insert(juez);
+		return juezDAO.create(juez);
 	}
 
 	public void update(final Juez juez) {
@@ -40,7 +40,7 @@ public class JuezService {
 	}
 
 	public void delete(final Juez juez) {
-		juezDAO.remove(juez);
+		juezDAO.delete(juez);
 	}
 
 }

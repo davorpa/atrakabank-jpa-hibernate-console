@@ -29,7 +29,7 @@ public class DelincuenteService {
 	}
 
 	public Delincuente findById(final Long idDelincuente) {
-		return delincuenteDAO.findById(idDelincuente);
+		return delincuenteDAO.findOne(idDelincuente).orElse(null);
 	}
 
 	/**
@@ -39,11 +39,11 @@ public class DelincuenteService {
 	 * @return nunca {@code null}, {@code Optional#empty()} si no hay resultados
 	 */
 	public Optional<Delincuente> findByCodigo(final String codigo) {
-		return delincuenteDAO.findByCodigo(codigo);
+		return delincuenteDAO.findOneByCodigo(codigo);
 	}
 
 	public Delincuente insert(final Delincuente delincuente) {
-		return delincuenteDAO.insert(delincuente);
+		return delincuenteDAO.create(delincuente);
 	}
 
 	public void update(final Delincuente delincuente) {
@@ -51,7 +51,7 @@ public class DelincuenteService {
 	}
 
 	public void delete(final Delincuente delincuente) {
-		delincuenteDAO.remove(delincuente);
+		delincuenteDAO.delete(delincuente);
 	}
 
 }

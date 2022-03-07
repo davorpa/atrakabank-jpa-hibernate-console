@@ -30,7 +30,7 @@ import business.service.VigilanteService;
 
 /**
  * Clase para probar el ejercicio de los atracadores.
- * 
+ *
  * Se recomienda depurar e ir viendo los cambios en los objetos y BD
  *
  * La opción 1 crea una banco y una sucursal y asigna la sucursal al banco.
@@ -108,7 +108,7 @@ public class TestApp {
 				case 2:
 					// Listado de sucursales de un banco
 					List<Sucursal> sucursales = new ArrayList<Sucursal>();
-					sucursales = sucursalService.findByCodigoBanco("BAN01");
+					sucursales = sucursalService.findAllByCodigoBanco("BAN01");
 					for (Sucursal s : sucursales) {
 						sysout.println(s);
 					}

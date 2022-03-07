@@ -1,6 +1,5 @@
 package business.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -37,7 +36,7 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Vigilante implements Serializable {
+public class Vigilante implements IEntity<Long> {
 
 	private static final long serialVersionUID = -7901671813878211299L;
 

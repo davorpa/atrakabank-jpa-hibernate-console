@@ -1,6 +1,5 @@
 package business.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +31,7 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Juez implements Serializable {
+public class Juez implements IEntity<Long> {
 
 	private static final long serialVersionUID = -4610606391379915543L;
 

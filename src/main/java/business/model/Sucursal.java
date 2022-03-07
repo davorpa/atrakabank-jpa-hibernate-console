@@ -1,6 +1,5 @@
 package business.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -41,7 +40,7 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Sucursal implements Serializable {
+public class Sucursal implements IEntity<Long> {
 
 	private static final long serialVersionUID = -4347117274148071411L;
 

@@ -38,7 +38,7 @@ public class VerSucursalesAction implements Action {
 
 		SucursalService sucursalService = ServiceFactory.getInstance().getSucursalService();
 
-		List<Sucursal> sucursales = sucursalService.findByCodigoBanco(codigo);
+		List<Sucursal> sucursales = sucursalService.findAllByCodigoBanco(codigo);
 		if (sucursales.isEmpty()) {
 			printf("%n%nINFO :: La búsqueda no ha devuelto resultados.%n%n");
 			return;

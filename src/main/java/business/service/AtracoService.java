@@ -28,11 +28,11 @@ public class AtracoService {
 	}
 
 	public Atraco findById(final Long id) {
-		return atracoDAO.findById(id);
+		return atracoDAO.findOne(id).orElse(null);
 	}
 
 	public Atraco insert(final Atraco atraco) {
-		return atracoDAO.insert(atraco);
+		return atracoDAO.create(atraco);
 	}
 
 	public void update(final Atraco atraco) {
@@ -40,7 +40,7 @@ public class AtracoService {
 	}
 
 	public void delete(final Atraco atraco) {
-		atracoDAO.remove(atraco);
+		atracoDAO.delete(atraco);
 	}
 
 }

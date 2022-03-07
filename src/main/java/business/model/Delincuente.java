@@ -1,6 +1,5 @@
 package business.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -38,8 +37,8 @@ import lombok.ToString;
 	})
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Delincuente implements Serializable {
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, doNotUseGetters = false)
+public class Delincuente implements IEntity<Long> {
 
 	private static final long serialVersionUID = -7087331123973362373L;
 

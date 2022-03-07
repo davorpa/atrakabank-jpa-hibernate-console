@@ -28,11 +28,11 @@ public class VigilanteService {
 	}
 
 	public Vigilante findById(final Long idVigilante) {
-		return vigilanteDAO.findById(idVigilante);
+		return vigilanteDAO.findOne(idVigilante).orElse(null);
 	}
 
 	public Vigilante insert(final Vigilante vigilante) {
-		return vigilanteDAO.insert(vigilante);
+		return vigilanteDAO.create(vigilante);
 	}
 
 	public void update(final Vigilante vigilante) {
@@ -40,7 +40,7 @@ public class VigilanteService {
 	}
 
 	public void delete(final Vigilante vigilante) {
-		vigilanteDAO.remove(vigilante);
+		vigilanteDAO.delete(vigilante);
 	}
 
 }

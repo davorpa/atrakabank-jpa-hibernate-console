@@ -1,6 +1,5 @@
 package business.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -36,7 +35,7 @@ import lombok.Setter;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Contrato implements Serializable {
+public class Contrato implements IEntity<Long> {
 
 	private static final long serialVersionUID = 8701897683893933707L;
 

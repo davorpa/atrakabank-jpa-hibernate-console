@@ -1,6 +1,5 @@
 package business.model;
 
-import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -38,7 +37,7 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class BandaOrganizada implements Serializable {
+public class BandaOrganizada implements IEntity<Long> {
 
 	private static final long serialVersionUID = -5644197328475561675L;
 

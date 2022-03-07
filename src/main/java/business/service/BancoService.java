@@ -28,15 +28,15 @@ public class BancoService {
 	}
 
 	public Banco findById(final Long id) {
-		return bancoDAO.findById(id);
+		return bancoDAO.findOne(id).orElse(null);
 	}
 
 	public Banco findByCodigo(final String codigo) {
-		return bancoDAO.findByCodigo(codigo);
+		return bancoDAO.findOneByCodigo(codigo).orElse(null);
 	}
 
 	public Banco insert(final Banco banco) {
-		return bancoDAO.insert(banco);
+		return bancoDAO.create(banco);
 	}
 
 	public void update(final Banco banco) {
@@ -44,7 +44,7 @@ public class BancoService {
 	}
 
 	public void delete(final Banco banco) {
-		bancoDAO.remove(banco);
+		bancoDAO.delete(banco);
 	}
 
 }

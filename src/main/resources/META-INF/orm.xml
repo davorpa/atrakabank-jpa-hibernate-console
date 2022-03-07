@@ -7,32 +7,32 @@
     version="2.0">
 
     <!-- Banco queries -->
-    <named-query name="Banco.findByCodigo">
+    <named-query name="Banco.findOneByCodigo">
         <query>select b from Banco b where b.codigo = ?1</query>
     </named-query>
 
 
 
     <!-- Sucursal queries -->
-    <named-query name="Sucursal.findByCodigoBanco">
+    <named-query name="Sucursal.findAllByCodigoBanco">
         <query>select s from Sucursal s where s.banco.codigo = ?1</query>
     </named-query>
 
-    <named-query name="Sucursal.findByCodigo">
+    <named-query name="Sucursal.findOneByCodigo">
         <query>select s from Sucursal s where s.codigo = ?1</query>
     </named-query>
 
 
 
     <!-- Delincuente queries -->
-    <named-query name="Delincuente.findByCodigo">
+    <named-query name="Delincuente.findOneByCodigo">
         <query>SELECT d FROM Delincuente d WHERE d.identificador = ?1</query>
     </named-query>
 
 
 
     <!-- BandaOrganizada queries -->
-    <named-query name="BandaOrganizada.findByCodigo">
+    <named-query name="BandaOrganizada.findOneByCodigo">
         <query>SELECT bo FROM BandaOrganizada bo WHERE bo.codigo = ?1</query>
     </named-query>
 

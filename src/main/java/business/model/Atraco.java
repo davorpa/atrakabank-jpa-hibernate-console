@@ -1,6 +1,5 @@
 package business.model;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
@@ -31,7 +30,7 @@ import lombok.Setter;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Atraco implements Serializable {
+public class Atraco implements IEntity<Long> {
 
 	private static final long serialVersionUID = 5807833637568906534L;
 
