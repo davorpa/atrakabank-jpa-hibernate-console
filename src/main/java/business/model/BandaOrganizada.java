@@ -55,7 +55,7 @@ public class BandaOrganizada implements IEntity<Long> {
 	private String codigo;
 
 	@Column(name = "NUM_MIEMBROS", nullable = false, columnDefinition = "int unsigned default 0")
-	private int numMiembros;
+	private long numMiembros;
 
 	@ToString.Exclude
 	@Getter(AccessLevel.NONE)
@@ -64,7 +64,7 @@ public class BandaOrganizada implements IEntity<Long> {
 	private Set<AfiliacionBandaDelincuente> afiliaciones;
 
 
-	public BandaOrganizada(final @NonNull String codigo, final int numMiembros) {
+	public BandaOrganizada(final @NonNull String codigo, final long numMiembros) {
 		super();
 		this.codigo = codigo;
 		this.numMiembros = numMiembros;

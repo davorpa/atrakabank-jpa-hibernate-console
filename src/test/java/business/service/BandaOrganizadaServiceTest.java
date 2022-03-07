@@ -7,6 +7,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import static util.ReflectionUtils.setField;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -23,6 +24,8 @@ import business.model.Delincuente;
 
 public class BandaOrganizadaServiceTest extends SampleBaseTestCase {
 
+	private volatile static long longSeed = (long) (Math.random() * 100);
+
 	@Mock(name = "bandaOrganizadaDAO")
 	private BandaOrganizadaDAO dao;
 
@@ -33,29 +36,39 @@ public class BandaOrganizadaServiceTest extends SampleBaseTestCase {
 	public void testFindByIdShouldReturnEntityWithNumMiembrosIndependentOfDelinquientesSize() {
 		// Given
 		final Long bandaId = 11L;
-		int expectedNumMiembros, expectedDelinquentesSize = 0;
-		final BandaOrganizada banda = new BandaOrganizada("B001", expectedNumMiembros = 55);
-		banda.addDelincuente(new Delincuente(format("Z00%s", ++expectedDelinquentesSize), "Zutano"));
-		banda.addDelincuente(new Delincuente(format("M00%s", ++expectedDelinquentesSize), "Mengano"));
-		banda.addDelincuente(new Delincuente(format("V00%s", ++expectedDelinquentesSize), "Villano"));
+		long expectedNumMiembros, expectedDelincuentesSize = 0;
+		final BandaOrganizada banda = setField(
+				new BandaOrganizada("B001", expectedNumMiembros = 55),
+				"id", bandaId);
+		setField(banda.addDelincuente(setField(
+				new Delincuente(format("Z00%s", ++expectedDelincuentesSize), "Zutano"),
+				"id", expectedDelincuentesSize)),
+				"id", ++longSeed);
+		setField(banda.addDelincuente(setField(
+				new Delincuente(format("M00%s", ++expectedDelincuentesSize), "Mengano"),
+				"id", expectedDelincuentesSize)),
+				"id", ++longSeed);
+		setField(banda.addDelincuente(setField(
+				new Delincuente(format("V00%s", ++expectedDelincuentesSize), "Villano"),
+				"id", expectedDelincuentesSize)),
+				"id", ++longSeed);
 
 		final BandaOrganizada mockedBanda = spy(banda);
-		when(mockedBanda.getId()).thenReturn(bandaId);
 
 		when(dao.findOne(anyLong())).thenReturn(Optional.of(mockedBanda));
 
 		// Do
 		final BandaOrganizada result = service.findById(bandaId);
 
-		int numMiembros = result.getNumMiembros();
-		Collection<Delincuente> delinquentes = result.getDelincuentes();
-		int delinquentesSize = delinquentes.size();
+		long numMiembros = result.getNumMiembros();
+		Collection<Delincuente> delincuentes = result.getDelincuentes();
+		long delincuentesSize = delincuentes.size();
 
 		// Assert expectations
 		Assert.assertNotEquals("`banda.numMiembros` should not depend of `banda.delinquientes`.",
-				numMiembros, delinquentesSize);
-		Assert.assertEquals(expectedNumMiembros, numMiembros - expectedDelinquentesSize);
-		Assert.assertEquals(expectedDelinquentesSize, delinquentesSize);
+				numMiembros, delincuentesSize);
+		Assert.assertEquals(expectedNumMiembros, numMiembros - expectedDelincuentesSize);
+		Assert.assertEquals(expectedDelincuentesSize, delincuentesSize);
 
 		verify(dao, times(1)).findOne(bandaId);
 		verifyNoMoreInteractions(dao);
