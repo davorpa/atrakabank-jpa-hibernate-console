@@ -10,7 +10,9 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
+import javax.persistence.RollbackException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
@@ -68,6 +70,7 @@ public abstract class AbstractRepositoryDAO<T extends IEntity<PK>, PK extends Se
 
 	EntityManager getEntityManager() {
 		if (entityManager == null || !entityManager.isOpen()) {
+			// on initialize or on closed
 			entityManager = JPAUtil.getEntityManagerFactory().createEntityManager();
 		}
 		return entityManager;
@@ -81,13 +84,31 @@ public abstract class AbstractRepositoryDAO<T extends IEntity<PK>, PK extends Se
 
 	protected <R> R run(final @NonNull Function<EntityManager, R> function) {
 		EntityManager em = getEntityManager();
+		EntityTransaction tx = null;
 		try {
 			return function.apply(em);
-		} catch (PersistenceException pex) {
-			em.getTransaction().rollback();
-			throw pex;
+		}
+		catch (RuntimeException cause) {
+			// isolation: avoid double rollback race when commit fails
+			if (cause instanceof RollbackException) {
+				throw cause;
+			}
+
+			// isolation: avoid process on read-only / non-transactional operations
+			try {
+				if (em.isJoinedToTransaction()) {
+					tx = em.getTransaction();
+				}
+				if (tx != null && tx.isActive()) {
+					tx.rollback();
+				}
+			} catch (IllegalStateException | PersistenceException ignored) {
+				// avoid mask real catched exception
+			}
+
+			throw cause;
 		} finally {
-			if (Boolean.getBoolean("persistence.dao.close.em.per.operation")) {
+			if (Boolean.getBoolean("persistence.close-entity-manager-per-execution")) {
 				JPAUtil.closeEntityManager(em);
 			}
 		}
@@ -102,12 +123,22 @@ public abstract class AbstractRepositoryDAO<T extends IEntity<PK>, PK extends Se
 
 	protected <R> R runInTransaction(final @NonNull Function<EntityManager, R> function) {
 		return run(em -> {
-			if (!em.isJoinedToTransaction()) {
-				// avoid reentrance due to raise an exception
-				em.getTransaction().begin();
+			final EntityTransaction tx = em.getTransaction();
+			// avoid reentrance: it raises an exception
+			if (!em.isJoinedToTransaction() || !tx.isActive()) {
+				tx.begin();
 			}
+
 			final R result = function.apply(em);
-			em.getTransaction().commit();
+
+			// avoid reentrance: it raises an exception
+			if (em.isJoinedToTransaction() && tx.isActive()) {
+				if ( !tx.getRollbackOnly() ) {
+					tx.commit();
+				} else {
+					tx.rollback();
+				}
+			}
 			return result;
 		});
 	}
