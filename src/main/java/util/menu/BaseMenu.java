@@ -63,7 +63,7 @@ public abstract class BaseMenu implements Action {
 	private int getMenuOption() {
 		Integer opt;
 		do {
-			opt = Console.readInt("Opción");
+			opt = Console.readInt("  Opción");
 		} while (opt == null || opt < EXIT || (opt > actions.size()));
 		return opt;
 	}
@@ -76,11 +76,10 @@ public abstract class BaseMenu implements Action {
 		int opc = EXIT;
 		printMenuHeader();
 		for (Object[] row : menuOptions) {
-			String text = (String) row[0];
-			if (isOptionRow(row)) {
-				printMenuOption(++opc, text);
+			if ( isOptionRow(row) ) {
+				printMenuOption(++opc, resolveOptionText(row, opc));
 			} else {
-				printMenuSeparator(text);
+				printMenuSeparator(resolveMenuSeparator(row));
 			}
 		}
 		printMenuFooter();
@@ -110,11 +109,19 @@ public abstract class BaseMenu implements Action {
 	}
 
 	protected void printMenuOption(int opc, String text) {
-		Console.printf("\t %s- %s%n", opc, text);
+		Console.printf("\t%2d- %s%n", opc, text);
 	}
 
-	private boolean isOptionRow(Object[] row) {
-		return row[1] != null;
+	protected boolean isOptionRow(Object[] row) {
+		return row != null && row.length > 1 && row[1] != null;
+	}
+
+	protected String resolveOptionText(Object[] row, int pos) {
+		return row == null ? String.format("Opción nº%d", pos) : (String) row[0];
+	}
+
+	protected String resolveMenuSeparator(Object[] row) {
+		return row == null ? "" : (String) row[0];
 	}
 
 }
