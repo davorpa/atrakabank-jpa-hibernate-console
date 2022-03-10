@@ -1,5 +1,7 @@
 package business.dao;
 
+import static util.Strings.substringBefore;
+
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
@@ -61,8 +63,7 @@ public abstract class AbstractRepositoryDAO<T extends IEntity<PK>, PK extends Se
 	protected String entityClassName() {
 		String name = getEntityClass().getTypeName();
 		// unproxied name
-		int index = name.indexOf('$');
-		return index > 0 ? name.substring(0, index) : name;
+		return substringBefore(name, '$');
 	}
 
 
