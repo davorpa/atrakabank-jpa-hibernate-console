@@ -15,6 +15,10 @@ public class ServiceFactory {
 
 	@Setter
 	@Getter
+	private EmpleadoService empleadoService;
+
+	@Setter
+	@Getter
 	private DelincuenteService delincuenteService;
 
 	@Setter
@@ -57,6 +61,7 @@ public class ServiceFactory {
 					// tantas como servicios
 					sf.setBancoService(new BancoService());
 					sf.setSucursalService(new SucursalService());
+			serviceFactory.setEmpleadoService(new EmpleadoService());
 					sf.setDelincuenteService(new DelincuenteService());
 					sf.setAtracoService(new AtracoService());
 					sf.setVigilanteService(new VigilanteService());

@@ -44,6 +44,39 @@ public class RelationalHelper
 		}
 	}
 
+	/**
+	 * Mantiene la bidireccionalidad de la relación 1:N entre banco y empleados
+	 */
+	public static class EmpleadoBanco
+	{
+		private EmpleadoBanco() {
+		}
+
+		/**
+		 * Asocia un nuevo registro de empleabilidad en plantilla entre las entidades
+		 * banco y empleado pasadas por parámetro.
+		 *
+		 * @param banco entidad a tratar, nunca {@code null}.
+		 * @param empleado entidad a tratar, nunca {@code null}.
+		 */
+		public static void link(final @NonNull Banco banco, final @NonNull Empleado empleado) {
+			empleado._setBanco(banco);
+			banco._getEmpleados().add(empleado);
+		}
+
+		/**
+		 * Desasocia un registro de empleabilidad en plantilla que coincida con la tupla
+		 * de las entidades banco y empleado provistas por parámetro.
+		 *
+		 * @param banco entidad a tratar, nunca {@code null}.
+		 * @param empleado entidad a tratar, nunca {@code null}.
+		 */
+		public static void unlink(final @NonNull Banco banco, final @NonNull Empleado empleado) {
+			banco._getEmpleados().remove(empleado);
+			empleado._setBanco(null);
+		}
+	}
+
 	public static class AsignarVigilancia
 	{
 		private AsignarVigilancia() {
