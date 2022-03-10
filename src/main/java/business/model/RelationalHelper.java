@@ -11,19 +11,36 @@ public class RelationalHelper
 	private RelationalHelper() {
 	}
 
+	/**
+	 * Mantiene la bidireccionalidad de la relación 1:N entre banco y empleados
+	 */
 	public static class BancoSucursal
 	{
 		private BancoSucursal() {
 		}
 
+		/**
+		 * Asocia un nuevo registro de pertenencia entre las entidades
+		 * banco y sucursal pasadas por parámetro.
+		 *
+		 * @param banco entidad a tratar, nunca {@code null}.
+		 * @param sucursal entidad a tratar, nunca {@code null}.
+		 */
 		public static void link(final @NonNull Banco banco, final @NonNull Sucursal sucursal) {
-			sucursal.setBanco(banco);
+			sucursal._setBanco(banco);
 			banco._getSucursales().add(sucursal);
 		}
 
+		/**
+		 * Desasocia un registro de pertenencia que coincida con la tupla
+		 * de las entidades banco y sucursal provistas por parámetro.
+		 *
+		 * @param banco entidad a tratar, nunca {@code null}.
+		 * @param sucursal entidad a tratar, nunca {@code null}.
+		 */
 		public static void unlink(final @NonNull Banco banco, final @NonNull Sucursal sucursal) {
 			banco._getSucursales().remove(sucursal);
-			sucursal.setBanco(null);
+			sucursal._setBanco(null);
 		}
 	}
 
@@ -101,7 +118,7 @@ public class RelationalHelper
 
 		/**
 		 * Asocia un nuevo registro de afiliación entre las entidades
-		 * banda organizada y delincuente pasadas por parametro.
+		 * banda organizada y delincuente pasadas por parámetro.
 		 *
 		 * @param bandaOrganizada entidad a tratar, nunca {@code null}.
 		 * @param delincuente entidad a tratar, nunca {@code null}.

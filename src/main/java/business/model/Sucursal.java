@@ -29,7 +29,7 @@ import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity
+@Entity(name = "Sucursal")
 @Table(name = "SUCURSAL", indexes = {
 		@Index(name = "SUCURSAL__CODIGO__UK", columnList = "CODIGO", unique = true),
 		@Index(name = "SUCURSAL__CIUDAD__IX", columnList = "CIUDAD"),
@@ -71,6 +71,7 @@ public class Sucursal implements IEntity<Long> {
 	@Column(name = "NUM_TRABAJADORES", nullable = false, columnDefinition = "int unsigned default 0")
 	private int numTrabajadores;
 
+	@NonNull
 	@ToString.Exclude
 	@ManyToOne
 	@JoinColumn(name = "ID_BANCO", nullable = false, foreignKey = @ForeignKey(name = "SUCURSAL__BANCO__FK"))
@@ -87,9 +88,11 @@ public class Sucursal implements IEntity<Long> {
 	private List<Contrato> contratos = new ArrayList<>();
 
 
-	public Sucursal(final @NonNull String codigo,
+	public Sucursal(
+			final @NonNull String codigo,
 			final @NonNull String ciudad, final @NonNull String direccion,
-			final @NonNull String nombreDirector, final int numTrabajadores) {
+			final @NonNull String nombreDirector,
+			final int numTrabajadores) {
 		super();
 		this.codigo = codigo;
 		this.ciudad = ciudad;
@@ -151,6 +154,10 @@ public class Sucursal implements IEntity<Long> {
 	//
 	// Mantener la inmutabilidad y bidireccionalidad de las relaciones y value types
 	//
+
+	void _setBanco(final Banco banco) {
+		this.banco = banco;
+	}
 
 	@NonNull
 	public List<Atraco> getAtracos() {
