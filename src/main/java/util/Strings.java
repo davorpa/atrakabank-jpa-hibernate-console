@@ -9,8 +9,7 @@ import java.util.stream.Stream;
 /**
  * Strings utilities
  */
-public abstract class Strings
-{
+public abstract class Strings {
 
 	/**
 	 * A String for a space character.
@@ -25,7 +24,8 @@ public abstract class Strings
 	/**
 	 * A String for linefeed LF ("\n").
 	 *
-	 * @see <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.10.6">JLF:
+	 * @see <a href=
+	 *      "http://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.10.6">JLF:
 	 *      Escape Sequences for Character and String Literals</a>
 	 */
 	public static final String LF = "\n";
@@ -33,7 +33,8 @@ public abstract class Strings
 	/**
 	 * A String for carriage return CR ("\r").
 	 *
-	 * @see <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.10.6">JLF:
+	 * @see <a href=
+	 *      "http://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.10.6">JLF:
 	 *      Escape Sequences for Character and String Literals</a>
 	 */
 	public static final String CR = "\r";
@@ -53,7 +54,9 @@ public abstract class Strings
 	public static final int INDEX_NOT_FOUND = -1;
 
 	/**
-	 * <p>The maximum size to which the padding constant(s) can expand: 8kb</p>
+	 * <p>
+	 * The maximum size to which the padding constant(s) can expand: 8kb
+	 * </p>
 	 */
 	private static final int PAD_LIMIT = 8192;
 
@@ -63,14 +66,20 @@ public abstract class Strings
 	public static final String[] EMPTY_STRING_ARRAY = new String[0];
 
 	/**
-	 * <p>Centers a String in a larger String of size {@code size}
-	 * using the space character (' ').</p>
+	 * <p>
+	 * Centers a CharSequence in a larger String of size {@code size} using the
+	 * space character (' ').
+	 * </p>
 	 *
-	 * <p>If the size is less than the String length, the original String is returned.
-	 * A {@code null} String returns {@code null}.
-	 * A negative size is treated as zero.</p>
+	 * <p>
+	 * If the size is less than the CharSequence length, its original String is
+	 * returned. A {@code null} String returns {@code null}. A negative size is
+	 * treated as zero.
+	 * </p>
 	 *
-	 * <p>Equivalent to {@code center(str, size, " ")}.</p>
+	 * <p>
+	 * Equivalent to {@code center(source, size, " ")}.
+	 * </p>
 	 *
 	 * <pre>
 	 * Strings.center(null, *)   = null
@@ -81,21 +90,27 @@ public abstract class Strings
 	 * Strings.center("a", 4)    = " a  "
 	 * </pre>
 	 *
-	 * @param str  the String to center, may be null
-	 * @param size  the int size of new String, negative treated as zero
+	 * @param source the CharSequence to center, may be null
+	 * @param size   the int size of new String, negative treated as zero
 	 * @return centered String, {@code null} if null String input
 	 */
-	public static String center(final String str, final int size) {
-		return center(str, size, ' ');
+	public static String center(
+			final CharSequence source,
+			final int size)
+	{
+		return center(source, size, ' ');
 	}
 
 	/**
-	 * <p>Centers a String in a larger String of size {@code size}.
-	 * Uses a supplied character as the value to pad the String with.</p>
+	 * <p>
+	 * Centers a CharSequence in a larger String of size {@code size}. Uses a
+	 * supplied character as the value to pad the String with.
+	 * </p>
 	 *
-	 * <p>If the size is less than the String length, the String is returned.
-	 * A {@code null} String returns {@code null}.
-	 * A negative size is treated as zero.</p>
+	 * <p>
+	 * If the size is less than the CharSequence length, its String is returned. A
+	 * {@code null} String returns {@code null}. A negative size is treated as zero.
+	 * </p>
 	 *
 	 * <pre>
 	 * Strings.center(null, *, *)     = null
@@ -107,19 +122,24 @@ public abstract class Strings
 	 * Strings.center("a", 4, 'y')    = "yayy"
 	 * </pre>
 	 *
-	 * @param str  the String to center, may be null
-	 * @param size  the int size of new String, negative treated as zero
-	 * @param padChar  the character to pad the new String with
+	 * @param source  the CharSequence to center, may be null
+	 * @param size    the int size of new String, negative treated as zero
+	 * @param padChar the character to pad the new String with
 	 * @return centered String, {@code null} if null String input
 	 */
-	public static String center(String str, final int size, final char padChar) {
-		if (str == null || size <= 0) {
-			return str;
+	public static String center(
+			final CharSequence source,
+			final int size,
+			final char padChar)
+	{
+		if (source == null || size <= 0) {
+			return defaultIfNull(source, null);
 		}
+		String str = source.toString();
 		final int strLen = str.length();
 		final int pads = size - strLen;
 		if (pads <= 0) {
-			return str;
+			return str; // returns original String when possible
 		}
 		str = leftPad(str, strLen + pads / 2, padChar);
 		str = rightPad(str, size, padChar);
@@ -127,12 +147,15 @@ public abstract class Strings
 	}
 
 	/**
-	 * <p>Centers a String in a larger String of size {@code size}.
-	 * Uses a supplied String as the value to pad the String with.</p>
+	 * <p>
+	 * Centers a CharSequence in a larger String of size {@code size}. Uses a
+	 * supplied String as the value to pad the String with.
+	 * </p>
 	 *
-	 * <p>If the size is less than the String length, the String is returned.
-	 * A {@code null} String returns {@code null}.
-	 * A negative size is treated as zero.</p>
+	 * <p>
+	 * If the size is less than the CharSequence length, its String is returned. A
+	 * {@code null} String returns {@code null}. A negative size is treated as zero.
+	 * </p>
 	 *
 	 * <pre>
 	 * Strings.center(null, *, *)     = null
@@ -146,71 +169,86 @@ public abstract class Strings
 	 * Strings.center("abc", 7, "")   = "  abc  "
 	 * </pre>
 	 *
-	 * @param str  the String to center, may be null
-	 * @param size  the int size of new String, negative treated as zero
-	 * @param padStr  the String to pad the new String with, must not be null or empty
+	 * @param source the CharSequence to center, may be null
+	 * @param size   the int size of new String, negative treated as zero
+	 * @param padStr the String to pad the new String with, must not be null or
+	 *               empty
 	 * @return centered String, {@code null} if null String input
 	 * @throws IllegalArgumentException if padStr is {@code null} or empty
 	 */
-	public static String center(String str, final int size, String padStr) {
-		if (str == null || size <= 0) {
-			return str;
+	public static String center(
+			final CharSequence source,
+			final int size,
+			String padStr)
+	{
+		if (source == null || size <= 0) {
+			return defaultIfNull(source, null);
 		}
-		if (isEmpty(padStr)) {
-			padStr = SPACE;
-		}
+		padStr = defaultIfEmpty(padStr, SPACE);
+		String str = source.toString();
 		final int strLen = str.length();
 		final int pads = size - strLen;
 		if (pads <= 0) {
-			return str;
+			return str; // returns original String when possible
 		}
 		str = leftPad(str, strLen + pads / 2, padStr);
 		str = rightPad(str, size, padStr);
 		return str;
 	}
 
-	public static String defaultIfEmpty(
-			final String str,
+	public static String defaultIfNull(
+			final CharSequence source,
 			final String fallback)
 	{
-		return isEmpty(str) ? fallback : str;
+		return source == null ? fallback : source.toString();
+	}
+
+	public static String defaultIfEmpty(
+			final CharSequence source,
+			final String fallback)
+	{
+		return isEmpty(source) ? fallback : source.toString();
 	}
 
 	public static String defaultIfBlank(
-			final String str,
+			final String source,
 			final String fallback)
 	{
-		return isBlank(str) ? fallback : str;
+		return isBlank(source) ? fallback : source;
 	}
 
 	public static boolean isEmpty(
-			final String str)
+			final CharSequence source)
 	{
-		return str == null || str.isEmpty();
+		return length(source) == 0;
 	}
 
 	public static boolean isBlank(
-			final String str)
+			final CharSequence source)
 	{
-		return str == null || trim(str).isEmpty();
+		return isEmpty(trim(source));
 	}
 
 	public static boolean isNotEmpty(
-			final String str)
+			final CharSequence source)
 	{
-		return !isEmpty(str);
+		return !isEmpty(source);
 	}
 
 	public static boolean isNotBlank(
-			final String str)
+			final CharSequence source)
 	{
-		return isBlank(str);
+		return !isBlank(source);
 	}
 
 	/**
-	 * <p>Left pad a String with spaces (' ').</p>
+	 * <p>
+	 * Left pad a CharSequence with spaces (' ').
+	 * </p>
 	 *
-	 * <p>The String is padded to the size of {@code size}.</p>
+	 * <p>
+	 * It String is padded to the size of {@code size}.
+	 * </p>
 	 *
 	 * <pre>
 	 * Strings.leftPad(null, *)   = null
@@ -221,21 +259,26 @@ public abstract class Strings
 	 * Strings.leftPad("bat", -1) = "bat"
 	 * </pre>
 	 *
-	 * @param str  the String to pad out, may be null
-	 * @param size  the size to pad to
+	 * @param source the CharSequence to pad out, may be null
+	 * @param size   the size to pad to
 	 * @return left padded String or original String if no padding is necessary,
-	 *  {@code null} if null String input
+	 *         {@code null} if null String input
 	 */
 	public static String leftPad(
-			final String str, final int size)
+			final CharSequence source,
+			final int size)
 	{
-		return leftPad(str, size, ' ');
+		return leftPad(source, size, ' ');
 	}
 
 	/**
-	 * <p>Left pad a String with a specified character.</p>
+	 * <p>
+	 * Left pad a CharSequence with a specified character.
+	 * </p>
 	 *
-	 * <p>Pad to a size of {@code size}.</p>
+	 * <p>
+	 * Pad to a size of {@code size}.
+	 * </p>
 	 *
 	 * <pre>
 	 * Strings.leftPad(null, *, *)     = null
@@ -246,18 +289,21 @@ public abstract class Strings
 	 * Strings.leftPad("bat", -1, 'z') = "bat"
 	 * </pre>
 	 *
-	 * @param str  the String to pad out, may be null
-	 * @param size  the size to pad to
-	 * @param padChar  the character to pad with
+	 * @param source  the CharSequence to pad out, may be null
+	 * @param size    the size to pad to
+	 * @param padChar the character to pad with
 	 * @return left padded String or original String if no padding is necessary,
-	 *  {@code null} if null String input
+	 *         {@code null} if null String input
 	 */
 	public static String leftPad(
-			final String str, final int size, final char padChar)
+			final CharSequence source,
+			final int size,
+			final char padChar)
 	{
-		if (str == null) {
+		if (source == null) {
 			return null;
 		}
+		final String str = source.toString();
 		final int pads = size - str.length();
 		if (pads <= 0) {
 			return str; // returns original String when possible
@@ -269,9 +315,13 @@ public abstract class Strings
 	}
 
 	/**
-	 * <p>Left pad a String with a specified String.</p>
+	 * <p>
+	 * Left pad a CharSequence with a specified String.
+	 * </p>
 	 *
-	 * <p>Pad to a size of {@code size}.</p>
+	 * <p>
+	 * Pad to a size of {@code size}.
+	 * </p>
 	 *
 	 * <pre>
 	 * Strings.leftPad(null, *, *)      = null
@@ -285,21 +335,22 @@ public abstract class Strings
 	 * Strings.leftPad("bat", 5, "")    = "  bat"
 	 * </pre>
 	 *
-	 * @param str  the String to pad out, may be null
-	 * @param size  the size to pad to
-	 * @param padStr  the String to pad with, null or empty treated as single space
+	 * @param source the CharSequence to pad out, may be null
+	 * @param size   the size to pad to
+	 * @param padStr the String to pad with, null or empty treated as single space
 	 * @return left padded String or original String if no padding is necessary,
-	 *  {@code null} if null String input
+	 *         {@code null} if null String input
 	 */
 	public static String leftPad(
-			final String str, final int size, String padStr)
+			final CharSequence source,
+			final int size,
+			String padStr)
 	{
-		if (str == null) {
+		if (source == null) {
 			return null;
 		}
-		if (isEmpty(padStr)) {
-			padStr = SPACE;
-		}
+		padStr = defaultIfEmpty(padStr, SPACE);
+		final String str = source.toString();
 		final int padLen = padStr.length();
 		final int strLen = str.length();
 		final int pads = size - strLen;
@@ -325,28 +376,251 @@ public abstract class Strings
 	}
 
 	/**
-	 * Gets a CharSequence length or {@code 0} if the CharSequence is
-	 * {@code null}.
+	 * Gets a CharSequence length or {@code 0} if the CharSequence is {@code null}.
 	 *
-	 * @param cs
-	 *            a CharSequence or {@code null}
-	 * @return CharSequence length or {@code 0} if the CharSequence is
-	 *         {@code null}.
+	 * @param source a CharSequence or {@code null}
+	 * @return CharSequence length or {@code 0} if the CharSequence is {@code null}.
 	 */
 	public static int length(
-			final CharSequence cs)
+			final CharSequence source)
 	{
-		return cs == null ? 0 : cs.length();
-    }
+		return source == null ? 0 : source.length();
+	}
 
 	/**
 	 * <p>
-	 * Gets a substring from the specified String avoiding exceptions.
+	 * Returns padding using the specified delimiter repeated to a given length.
+	 * </p>
+	 *
+	 * <pre>
+	 * Strings.repeat('e', 0)  = ""
+	 * Strings.repeat('e', 3)  = "eee"
+	 * Strings.repeat('e', -2) = ""
+	 * </pre>
+	 *
+	 * <p>
+	 * Note: this method does not support padding with
+	 * <a href="http://www.unicode.org/glossary/#supplementary_character">Unicode
+	 * Supplementary Characters</a> as they require a pair of {@code char}s to be
+	 * represented. If you are needing to support full I18N of your applications
+	 * consider using {@link #repeat(CharSequence, int)} instead.
+	 * </p>
+	 *
+	 * @param ch     character to repeat
+	 * @param repeat number of times to repeat char, negative treated as zero
+	 * @return String with repeated character
+	 * @see #repeat(CharSequence, int)
+	 */
+	public static String repeat(
+			final char ch,
+			final int repeat)
+	{
+		if (repeat <= 0) {
+			return EMPTY;
+		}
+		final char[] buf = new char[repeat];
+		Arrays.fill(buf, ch);
+		return new String(buf);
+	}
+
+	/**
+	 * <p>
+	 * Repeat a CharSequence {@code repeat} times to form a new String.
+	 * </p>
+	 *
+	 * <pre>
+	 * Strings.repeat(null, 2) = null
+	 * Strings.repeat("", 0)   = ""
+	 * Strings.repeat("", 2)   = ""
+	 * Strings.repeat("a", 3)  = "aaa"
+	 * Strings.repeat("ab", 2) = "abab"
+	 * Strings.repeat("a", -2) = ""
+	 * </pre>
+	 *
+	 * @param source the CharSequence to repeat, may be null
+	 * @param repeat number of times to repeat str, negative treated as zero
+	 * @return a new String consisting of the original String repeated, {@code null}
+	 *         if null String input
+	 */
+	public static String repeat(
+			final CharSequence source,
+			final int repeat)
+	{
+		if (source == null)
+			return null;
+		if (repeat <= 0)
+			return EMPTY;
+		final String str = source.toString();
+		final int inputLength = str.length();
+		if (repeat == 1 || inputLength == 0)
+			return str;
+		if (inputLength == 1 && repeat <= PAD_LIMIT)
+			return repeat(str.charAt(0), repeat);
+
+		final int outputLength = inputLength * repeat;
+		switch (inputLength) {
+		case 1:
+			return repeat(str.charAt(0), repeat);
+		case 2:
+			final char ch0 = str.charAt(0);
+			final char ch1 = str.charAt(1);
+			final char[] output2 = new char[outputLength];
+			for (int i = repeat * 2 - 2; i >= 0; i -= 2) {
+				output2[i] = ch0;
+				output2[i + 1] = ch1;
+			}
+			return new String(output2);
+		default:
+			final StringBuilder buf = new StringBuilder(outputLength);
+			for (int i = 0; i < repeat; i++) {
+				buf.append(str);
+			}
+			return buf.toString();
+		}
+	}
+
+	/**
+	 * <p>
+	 * Right pad a CharSequence with spaces (' ').
+	 * </p>
+	 *
+	 * <p>
+	 * The CharSequence is padded to the size of {@code size}.
+	 * </p>
+	 *
+	 * <pre>
+	 * Strings.rightPad(null, *)   = null
+	 * Strings.rightPad("", 3)     = "   "
+	 * Strings.rightPad("bat", 3)  = "bat"
+	 * Strings.rightPad("bat", 5)  = "bat  "
+	 * Strings.rightPad("bat", 1)  = "bat"
+	 * Strings.rightPad("bat", -1) = "bat"
+	 * </pre>
+	 *
+	 * @param source the CharSequence to pad out, may be null
+	 * @param size   the size to pad to
+	 * @return right padded String or original String if no padding is necessary,
+	 *         {@code null} if null String input
+	 */
+	public static String rightPad(
+			final CharSequence source,
+			final int size)
+	{
+		return rightPad(source, size, ' ');
+	}
+
+	/**
+	 * <p>
+	 * Right pad a CharSequence with a specified character.
+	 * </p>
+	 *
+	 * <p>
+	 * The CharSequence is padded to the size of {@code size}.
+	 * </p>
+	 *
+	 * <pre>
+	 * Strings.rightPad(null, *, *)     = null
+	 * Strings.rightPad("", 3, 'z')     = "zzz"
+	 * Strings.rightPad("bat", 3, 'z')  = "bat"
+	 * Strings.rightPad("bat", 5, 'z')  = "batzz"
+	 * Strings.rightPad("bat", 1, 'z')  = "bat"
+	 * Strings.rightPad("bat", -1, 'z') = "bat"
+	 * </pre>
+	 *
+	 * @param source  the CharSequence to pad out, may be null
+	 * @param size    the size to pad to
+	 * @param padChar the character to pad with
+	 * @return right padded String or original String if no padding is necessary,
+	 *         {@code null} if null String input
+	 * @since 2.0
+	 */
+	public static String rightPad(
+			final CharSequence source,
+			final int size, final char padChar)
+	{
+		if (source == null) {
+			return null;
+		}
+		final String str = source.toString();
+		final int pads = size - str.length();
+		if (pads <= 0) {
+			return str; // returns original String when possible
+		}
+		if (pads > PAD_LIMIT) {
+			return rightPad(source, size, String.valueOf(padChar));
+		}
+		return str.concat(repeat(padChar, pads));
+	}
+
+	/**
+	 * <p>
+	 * Right pad a CharSequence with a specified String.
+	 * </p>
+	 *
+	 * <p>
+	 * The CharSequence is padded to the size of {@code size}.
+	 * </p>
+	 *
+	 * <pre>
+	 * Strings.rightPad(null, *, *)      = null
+	 * Strings.rightPad("", 3, "z")      = "zzz"
+	 * Strings.rightPad("bat", 3, "yz")  = "bat"
+	 * Strings.rightPad("bat", 5, "yz")  = "batyz"
+	 * Strings.rightPad("bat", 8, "yz")  = "batyzyzy"
+	 * Strings.rightPad("bat", 1, "yz")  = "bat"
+	 * Strings.rightPad("bat", -1, "yz") = "bat"
+	 * Strings.rightPad("bat", 5, null)  = "bat  "
+	 * Strings.rightPad("bat", 5, "")    = "bat  "
+	 * </pre>
+	 *
+	 * @param source the CharSequence to pad out, may be null
+	 * @param size   the size to pad to
+	 * @param padStr the String to pad with, null or empty treated as single space
+	 * @return right padded String or original String if no padding is necessary,
+	 *         {@code null} if null String input
+	 */
+	public static String rightPad(
+			final CharSequence source,
+			final int size,
+			String padStr)
+	{
+		if (source == null) {
+			return null;
+		}
+		final String str = source.toString();
+		padStr = defaultIfEmpty(padStr, SPACE);
+		final int padLen = padStr.length();
+		final int strLen = str.length();
+		final int pads = size - strLen;
+		if (pads <= 0) {
+			return str; // returns original String when possible
+		}
+		if (padLen == 1 && pads <= PAD_LIMIT) {
+			return rightPad(str, size, padStr.charAt(0));
+		}
+
+		if (pads == padLen) {
+			return str.concat(padStr);
+		}
+		if (pads < padLen) {
+			return str.concat(padStr.substring(0, pads));
+		}
+		final char[] padding = new char[pads];
+		final char[] padChars = padStr.toCharArray();
+		for (int i = 0; i < pads; i++) {
+			padding[i] = padChars[i % padLen];
+		}
+		return str.concat(new String(padding));
+	}
+
+	/**
+	 * <p>
+	 * Gets a substring from the specified CharSequence avoiding exceptions.
 	 * </p>
 	 *
 	 * <p>
 	 * A negative start position can be used to start {@code n} characters from the
-	 * end of the String.
+	 * end of the CharSequence.
 	 * </p>
 	 *
 	 * <p>
@@ -364,27 +638,30 @@ public abstract class Strings
 	 * Strings.substring("abc", -4) = "abc"
 	 * </pre>
 	 *
-	 * @param str   the String to get the substring from, may be null
-	 * @param start the position to start from, negative means count back from the
-	 *              end of the String by this many characters
+	 * @param source the CharSequence to get the substring from, may be null
+	 * @param start  the position to start from, negative means count back from the
+	 *               end of the String by this many characters
 	 * @return substring from start position, {@code null} if null String input
 	 */
 	public static String substring(
-			final String str, int start)
+			final CharSequence source,
+			int start)
 	{
-		if (str == null) {
+		if (source == null) {
 			return null;
 		}
 
+		final String str = source.toString();
+		final int strLen = str.length();
 		// handle negatives, which means last n characters
 		if (start < 0) {
-			start = str.length() + start; // remember start is negative
+			start = strLen + start; // remember start is negative
 		}
 
 		if (start < 0) {
 			start = 0;
 		}
-		if (start > str.length()) {
+		if (start > strLen) {
 			return EMPTY;
 		}
 
@@ -393,12 +670,12 @@ public abstract class Strings
 
 	/**
 	 * <p>
-	 * Gets a substring from the specified String avoiding exceptions.
+	 * Gets a substring from the specified CharSequence avoiding exceptions.
 	 * </p>
 	 *
 	 * <p>
 	 * A negative start position can be used to start/end {@code n} characters from
-	 * the end of the String.
+	 * the end of the CharSequence.
 	 * </p>
 	 *
 	 * <p>
@@ -425,32 +702,36 @@ public abstract class Strings
 	 * Strings.substring("abc", -4, 2)  = "ab"
 	 * </pre>
 	 *
-	 * @param str   the String to get the substring from, may be null
-	 * @param start the position to start from, negative means count back from the
-	 *              end of the String by this many characters
-	 * @param end   the position to end at (exclusive), negative means count back
-	 *              from the end of the String by this many characters
+	 * @param source the CharSequence to get the substring from, may be null
+	 * @param start  the position to start from, negative means count back from the
+	 *               end of the String by this many characters
+	 * @param end    the position to end at (exclusive), negative means count back
+	 *               from the end of the String by this many characters
 	 * @return substring from start position to end position, {@code null} if null
 	 *         String input
 	 */
 	public static String substring(
-			final String str, int start, int end)
+			final CharSequence source,
+			int start,
+			int end)
 	{
-		if (str == null) {
+		if (source == null) {
 			return null;
 		}
 
+		final String str = source.toString();
+		final int strLen = str.length();
 		// handle negatives
 		if (end < 0) {
-			end = str.length() + end; // remember end is negative
+			end = strLen + end; // remember end is negative
 		}
 		if (start < 0) {
-			start = str.length() + start; // remember start is negative
+			start = strLen + start; // remember start is negative
 		}
 
 		// check length next
-		if (end > str.length()) {
-			end = str.length();
+		if (end > strLen) {
+			end = strLen;
 		}
 
 		// if start is greater than end, return ""
@@ -492,17 +773,19 @@ public abstract class Strings
 	 * Strings.substringAfter(" abc", 32)   = "abc"
 	 * </pre>
 	 *
-	 * @param str       the String to get a substring from, may be null
+	 * @param source    the CharSequence to get a substring from, may be null
 	 * @param separator the character (Unicode code point) to search.
 	 * @return the substring after the first occurrence of the separator,
 	 *         {@code null} if null String input
 	 */
 	public static String substringAfter(
-			final String str, final int separator)
+			final CharSequence source,
+			final int separator)
 	{
-		if (isEmpty(str)) {
-			return str;
+		if (isEmpty(source)) {
+			return defaultIfNull(source, null);
 		}
+		final String str = source.toString();
 		final int pos = str.indexOf(separator);
 		if (pos == INDEX_NOT_FOUND) {
 			return EMPTY;
@@ -537,20 +820,22 @@ public abstract class Strings
 	 * Strings.substringAfter("abc", "")    = "abc"
 	 * </pre>
 	 *
-	 * @param str       the String to get a substring from, may be null
+	 * @param source    the CharSequence to get a substring from, may be null
 	 * @param separator the String to search for, may be null
 	 * @return the substring after the first occurrence of the separator,
 	 *         {@code null} if null String input
 	 */
 	public static String substringAfter(
-			final String str, final String separator)
+			final CharSequence source,
+			final String separator)
 	{
-		if (isEmpty(str)) {
-			return str;
+		if (isEmpty(source)) {
+			return defaultIfNull(source, null);
 		}
 		if (separator == null) {
 			return EMPTY;
 		}
+		final String str = source.toString();
 		final int pos = str.indexOf(separator);
 		if (pos == INDEX_NOT_FOUND) {
 			return EMPTY;
@@ -583,17 +868,19 @@ public abstract class Strings
 	 * Strings.substringAfterLast("a", 'z')     = ""
 	 * </pre>
 	 *
-	 * @param str       the String to get a substring from, may be null
+	 * @param source    the CharSequence to get a substring from, may be null
 	 * @param separator the character (Unicode code point) to search.
 	 * @return the substring after the last occurrence of the separator,
 	 *         {@code null} if null String input
 	 */
 	public static String substringAfterLast(
-			final String str, final int separator)
+			final CharSequence source,
+			final int separator)
 	{
-		if (isEmpty(str)) {
-			return str;
+		if (isEmpty(source)) {
+			return defaultIfNull(source, null);
 		}
+		final String str = source.toString();
 		final int pos = str.lastIndexOf(separator);
 		if (pos == INDEX_NOT_FOUND || pos == str.length() - 1) {
 			return EMPTY;
@@ -629,20 +916,22 @@ public abstract class Strings
 	 * Strings.substringAfterLast("a", "z")     = ""
 	 * </pre>
 	 *
-	 * @param str       the String to get a substring from, may be null
+	 * @param source    the CharSequence to get a substring from, may be null
 	 * @param separator the String to search for, may be null
 	 * @return the substring after the last occurrence of the separator,
 	 *         {@code null} if null String input
 	 */
 	public static String substringAfterLast(
-			final String str, final String separator)
+			final CharSequence source,
+			final String separator)
 	{
-		if (isEmpty(str)) {
-			return str;
+		if (isEmpty(source)) {
+			return defaultIfNull(source, null);
 		}
 		if (isEmpty(separator)) {
 			return EMPTY;
 		}
+		final String str = source.toString();
 		final int pos = str.lastIndexOf(separator);
 		if (pos == INDEX_NOT_FOUND || pos == str.length() - separator.length()) {
 			return EMPTY;
@@ -674,17 +963,19 @@ public abstract class Strings
 	 * Strings.substringBefore("abc", 'd')   = "abc"
 	 * </pre>
 	 *
-	 * @param str       the String to get a substring from, may be null
+	 * @param source    the CharSequence to get a substring from, may be null
 	 * @param separator the character (Unicode code point) to search.
 	 * @return the substring before the first occurrence of the separator,
 	 *         {@code null} if null String input
 	 */
 	public static String substringBefore(
-			final String str, final int separator)
+			final CharSequence source,
+			final int separator)
 	{
-		if (isEmpty(str)) {
-			return str;
+		if (isEmpty(source)) {
+			return defaultIfNull(source, null);
 		}
+		final String str = source.toString();
 		final int pos = str.indexOf(separator);
 		if (pos == INDEX_NOT_FOUND) {
 			return str;
@@ -719,20 +1010,22 @@ public abstract class Strings
 	 * Strings.substringBefore("abc", null)  = "abc"
 	 * </pre>
 	 *
-	 * @param str       the String to get a substring from, may be null
+	 * @param source    the CharSequence to get a substring from, may be null
 	 * @param separator the String to search for, may be null
 	 * @return the substring before the first occurrence of the separator,
 	 *         {@code null} if null String input
 	 */
 	public static String substringBefore(
-			final String str, final String separator)
+			final CharSequence source,
+			final String separator)
 	{
-		if (isEmpty(str) || separator == null) {
-			return str;
+		if (isEmpty(source) || separator == null) {
+			return defaultIfNull(source, null);
 		}
-		if (separator.isEmpty()) {
+		if (isEmpty(separator)) {
 			return EMPTY;
 		}
+		final String str = source.toString();
 		final int pos = str.indexOf(separator);
 		if (pos == INDEX_NOT_FOUND) {
 			return str;
@@ -767,17 +1060,19 @@ public abstract class Strings
 	 * Strings.substringBeforeLast("a", "")      = "a"
 	 * </pre>
 	 *
-	 * @param str       the String to get a substring from, may be null
+	 * @param source    the CharSequence to get a substring from, may be null
 	 * @param separator the String to search for, may be null
 	 * @return the substring before the last occurrence of the separator,
 	 *         {@code null} if null String input
 	 */
 	public static String substringBeforeLast(
-			final String str, final String separator)
+			final CharSequence source,
+			final String separator)
 	{
-		if (isEmpty(str) || isEmpty(separator)) {
-			return str;
+		if (isEmpty(source) || isEmpty(separator)) {
+			return defaultIfNull(source, null);
 		}
+		final String str = source.toString();
 		final int pos = str.lastIndexOf(separator);
 		if (pos == INDEX_NOT_FOUND) {
 			return str;
@@ -804,14 +1099,15 @@ public abstract class Strings
 	 * Strings.substringBetween("tagabctag", "tag") = "abc"
 	 * </pre>
 	 *
-	 * @param str the String containing the substring, may be null
-	 * @param tag the String before and after the substring, may be null
+	 * @param source the CharSequence containing the substring, may be null
+	 * @param tag    the String before and after the substring, may be null
 	 * @return the substring, {@code null} if no match
 	 */
 	public static String substringBetween(
-			final String str, final String tag)
+			final CharSequence source,
+			final String tag)
 	{
-		return substringBetween(str, tag, tag);
+		return substringBetween(source, tag, tag);
 	}
 
 	/**
@@ -839,17 +1135,20 @@ public abstract class Strings
 	 * Strings.substringBetween("yabczyabcz", "y", "z")   = "abc"
 	 * </pre>
 	 *
-	 * @param str   the String containing the substring, may be null
-	 * @param open  the String before the substring, may be null
-	 * @param close the String after the substring, may be null
+	 * @param source the CharSequence containing the substring, may be null
+	 * @param open   the String before the substring, may be null
+	 * @param close  the String after the substring, may be null
 	 * @return the substring, {@code null} if no match
 	 */
 	public static String substringBetween(
-			final String str, final String open, final String close)
+			final CharSequence source,
+			final String open,
+			final String close)
 	{
-		if (Stream.of(str, open, close).anyMatch(Objects::isNull)) {
+		if (Stream.of(source, open, close).anyMatch(Objects::isNull)) {
 			return null;
 		}
+		final String str = source.toString();
 		final int start = str.indexOf(open);
 		if (start != INDEX_NOT_FOUND) {
 			final int end = str.indexOf(close, start + open.length());
@@ -880,16 +1179,18 @@ public abstract class Strings
 	 * Strings.substringsBetween("", "[", "]")          = []
 	 * </pre>
 	 *
-	 * @param str   the String containing the substrings, null returns null, empty
-	 *              returns empty
-	 * @param open  the String identifying the start of the substring, empty returns
-	 *              null
-	 * @param close the String identifying the end of the substring, empty returns
-	 *              null
+	 * @param source the String containing the substrings, null returns null, empty
+	 *               returns empty
+	 * @param open   the String identifying the start of the substring, empty
+	 *               returns null
+	 * @param close  the String identifying the end of the substring, empty returns
+	 *               null
 	 * @return a String Array of substrings, or {@code null} if no match
 	 */
 	public static String[] substringsBetween(
-			final String str, final String open, final String close)
+			final String str,
+			final String open,
+			final String close)
 	{
 		if (str == null || isEmpty(open) || isEmpty(close)) {
 			return null;
@@ -902,7 +1203,7 @@ public abstract class Strings
 		final int openLen = open.length();
 		final List<String> list = new ArrayList<>();
 		int pos = 0;
-		while (pos < strLen - closeLen) {
+		while (pos < strLen - closeLen) { //NOSONAR
 			int start = str.indexOf(open, pos);
 			if (start < 0) {
 				break;
@@ -921,224 +1222,30 @@ public abstract class Strings
 		return list.toArray(EMPTY_STRING_ARRAY);
 	}
 
-	/**
-	 * <p>Returns padding using the specified delimiter repeated
-	 * to a given length.</p>
-	 *
-	 * <pre>
-	 * StringUtils.repeat('e', 0)  = ""
-	 * StringUtils.repeat('e', 3)  = "eee"
-	 * StringUtils.repeat('e', -2) = ""
-	 * </pre>
-	 *
-	 * <p>Note: this method does not support padding with
-	 * <a href="http://www.unicode.org/glossary/#supplementary_character">Unicode Supplementary Characters</a>
-	 * as they require a pair of {@code char}s to be represented.
-	 * If you are needing to support full I18N of your applications
-	 * consider using {@link #repeat(String, int)} instead.
-	 * </p>
-	 *
-	 * @param ch  character to repeat
-	 * @param repeat  number of times to repeat char, negative treated as zero
-	 * @return String with repeated character
-	 * @see #repeat(String, int)
-	 */
-	public static String repeat(
-			final char ch, final int repeat)
+	public static String trim(
+			final CharSequence source)
 	{
-		if (repeat <= 0) {
-			return EMPTY;
-		}
-		final char[] buf = new char[repeat];
-		Arrays.fill(buf, ch);
-		return new String(buf);
-	}
-
-	/**
-	 * <p>Repeat a String {@code repeat} times to form a
-	 * new String.</p>
-	 *
-	 * <pre>
-	 * StringUtils.repeat(null, 2) = null
-	 * StringUtils.repeat("", 0)   = ""
-	 * StringUtils.repeat("", 2)   = ""
-	 * StringUtils.repeat("a", 3)  = "aaa"
-	 * StringUtils.repeat("ab", 2) = "abab"
-	 * StringUtils.repeat("a", -2) = ""
-	 * </pre>
-	 *
-	 * @param str  the String to repeat, may be null
-	 * @param repeat  number of times to repeat str, negative treated as zero
-	 * @return a new String consisting of the original String repeated,
-	 *  {@code null} if null String input
-	 */
-	public static String repeat(
-			final String str, final int repeat)
-	{
-		if (str == null) return null;
-		if (repeat <= 0) return EMPTY;
-		final int inputLength = str.length();
-		if (repeat == 1 || inputLength == 0) return str;
-		if (inputLength == 1 && repeat <= PAD_LIMIT) return repeat(str.charAt(0), repeat);
-
-		final int outputLength = inputLength * repeat;
-		switch (inputLength) {
-			case 1 :
-				return repeat(str.charAt(0), repeat);
-			case 2 :
-				final char ch0 = str.charAt(0);
-				final char ch1 = str.charAt(1);
-				final char[] output2 = new char[outputLength];
-				for (int i = repeat * 2 - 2; i >= 0; i -= 2) {
-					output2[i] = ch0;
-					output2[i + 1] = ch1;
-				}
-				return new String(output2);
-			default :
-				final StringBuilder buf = new StringBuilder(outputLength);
-				for (int i = 0; i < repeat; i++) {
-					buf.append(str);
-				}
-				return buf.toString();
-		}
-	}
-
-	/**
-	 * <p>Right pad a String with spaces (' ').</p>
-	 *
-	 * <p>The String is padded to the size of {@code size}.</p>
-	 *
-	 * <pre>
-	 * StringUtils.rightPad(null, *)   = null
-	 * StringUtils.rightPad("", 3)     = "   "
-	 * StringUtils.rightPad("bat", 3)  = "bat"
-	 * StringUtils.rightPad("bat", 5)  = "bat  "
-	 * StringUtils.rightPad("bat", 1)  = "bat"
-	 * StringUtils.rightPad("bat", -1) = "bat"
-	 * </pre>
-	 *
-	 * @param str  the String to pad out, may be null
-	 * @param size  the size to pad to
-	 * @return right padded String or original String if no padding is necessary,
-	 *  {@code null} if null String input
-	 */
-	public static String rightPad(
-			final String str, final int size)
-	{
-		return rightPad(str, size, ' ');
-	}
-
-	/**
-	 * <p>Right pad a String with a specified character.</p>
-	 *
-	 * <p>The String is padded to the size of {@code size}.</p>
-	 *
-	 * <pre>
-	 * StringUtils.rightPad(null, *, *)     = null
-	 * StringUtils.rightPad("", 3, 'z')     = "zzz"
-	 * StringUtils.rightPad("bat", 3, 'z')  = "bat"
-	 * StringUtils.rightPad("bat", 5, 'z')  = "batzz"
-	 * StringUtils.rightPad("bat", 1, 'z')  = "bat"
-	 * StringUtils.rightPad("bat", -1, 'z') = "bat"
-	 * </pre>
-	 *
-	 * @param str  the String to pad out, may be null
-	 * @param size  the size to pad to
-	 * @param padChar  the character to pad with
-	 * @return right padded String or original String if no padding is necessary,
-	 *  {@code null} if null String input
-	 * @since 2.0
-	 */
-	public static String rightPad(
-			final String str, final int size, final char padChar)
-	{
-		if (str == null) {
-			return null;
-		}
-		final int pads = size - str.length();
-		if (pads <= 0) {
-			return str; // returns original String when possible
-		}
-		if (pads > PAD_LIMIT) {
-			return rightPad(str, size, String.valueOf(padChar));
-		}
-		return str.concat(repeat(padChar, pads));
-	}
-
-	/**
-	 * <p>Right pad a String with a specified String.</p>
-	 *
-	 * <p>The String is padded to the size of {@code size}.</p>
-	 *
-	 * <pre>
-	 * StringUtils.rightPad(null, *, *)      = null
-	 * StringUtils.rightPad("", 3, "z")      = "zzz"
-	 * StringUtils.rightPad("bat", 3, "yz")  = "bat"
-	 * StringUtils.rightPad("bat", 5, "yz")  = "batyz"
-	 * StringUtils.rightPad("bat", 8, "yz")  = "batyzyzy"
-	 * StringUtils.rightPad("bat", 1, "yz")  = "bat"
-	 * StringUtils.rightPad("bat", -1, "yz") = "bat"
-	 * StringUtils.rightPad("bat", 5, null)  = "bat  "
-	 * StringUtils.rightPad("bat", 5, "")    = "bat  "
-	 * </pre>
-	 *
-	 * @param str  the String to pad out, may be null
-	 * @param size  the size to pad to
-	 * @param padStr  the String to pad with, null or empty treated as single space
-	 * @return right padded String or original String if no padding is necessary,
-	 *  {@code null} if null String input
-	 */
-	public static String rightPad(
-			final String str, final int size, String padStr)
-	{
-		if (str == null) {
-			return null;
-		}
-		if (isEmpty(padStr)) {
-			padStr = SPACE;
-		}
-		final int padLen = padStr.length();
-		final int strLen = str.length();
-		final int pads = size - strLen;
-		if (pads <= 0) {
-			return str; // returns original String when possible
-		}
-		if (padLen == 1 && pads <= PAD_LIMIT) {
-			return rightPad(str, size, padStr.charAt(0));
-		}
-
-		if (pads == padLen) {
-			return str.concat(padStr);
-		}
-		if (pads < padLen) {
-			return str.concat(padStr.substring(0, pads));
-		}
-		final char[] padding = new char[pads];
-		final char[] padChars = padStr.toCharArray();
-		for (int i = 0; i < pads; i++) {
-			padding[i] = padChars[i % padLen];
-		}
-		return str.concat(new String(padding));
+		return source == null ? null : source.toString().trim();
 	}
 
 	public static String trim(
-			final String str)
+			final String source)
 	{
-		return str == null ? null : str.trim();
+		return source == null ? null : source.trim();
 	}
 
 	public static String trimToNull(
-			final String str)
+			final String source)
 	{
-		String trimmed = trim(str);
-		return defaultIfEmpty(trimmed, null);
+		String trimmed = trim(source);
+		return defaultIfEmpty(trimmed, null); //NOSONAR
 	}
 
 	public static String trimToEmpty(
-			final String str)
+			final String source)
 	{
-		String trimmed = trim(str);
-		return defaultIfEmpty(trimmed, EMPTY);
+		String trimmed = trim(source);
+		return defaultIfEmpty(trimmed, EMPTY); //NOSONAR
 	}
 
 }
