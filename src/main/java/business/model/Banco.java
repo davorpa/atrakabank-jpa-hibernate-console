@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -69,6 +70,7 @@ public class Banco implements IEntity<Long> {
 	@Getter(AccessLevel.NONE)
 	@OneToMany(mappedBy = "banco", fetch = FetchType.LAZY,
 			cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@OrderBy("dni ASC, id ASC")
 	private Set<Empleado> empleados;
 
 

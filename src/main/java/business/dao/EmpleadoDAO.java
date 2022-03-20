@@ -41,6 +41,14 @@ public class EmpleadoDAO extends AbstractRepositoryDAO<Empleado, Long> {
 		return Optional.ofNullable(run(retriever));
 	}
 
+	@Override
+	public @NonNull List<Empleado> findAll() {
+		final Function<EntityManager, List<Empleado>> retriever =
+				em -> em.createNamedQuery("Empleado.findAll", Empleado.class)
+					.getResultList();
+		return run(retriever);
+	}
+
 	/**
 	 * Obtiene los empleados que tiene en plantilla un determinado banco.
 	 *
@@ -52,7 +60,7 @@ public class EmpleadoDAO extends AbstractRepositoryDAO<Empleado, Long> {
 	public List<Empleado> findAllByBancoCodigo(final String codigo) {
 		Objects.requireNonNull(codigo, "`codigo` must be non-null");
 		final Function<EntityManager, List<Empleado>> retriever =
-				em -> em.createNamedQuery("Empleado.findByBancoCodigo", Empleado.class)
+				em -> em.createNamedQuery("Empleado.findAllByBancoCodigo", Empleado.class)
 					.setParameter(1, codigo)
 					.getResultList();
 		return run(retriever);

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+<entity-mappings
+    xmlns="http://java.sun.com/xml/ns/persistence/orm"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
         http://java.sun.com/xml/ns/persistence/orm
@@ -34,6 +35,40 @@
     <!-- BandaOrganizada queries -->
     <named-query name="BandaOrganizada.findOneByCodigo">
         <query>SELECT bo FROM BandaOrganizada bo WHERE bo.codigo = ?1</query>
+    </named-query>
+
+
+
+    <!-- Empleado queries -->
+    <named-query name="Empleado.findByDNI">
+        <query>SELECT e FROM Empleado e WHERE e.DNI = ?1</query>
+    </named-query>
+
+    <named-query name="Empleado.findAll">
+        <query>
+        SELECT e
+        FROM Empleado e
+        ORDER BY e.banco.codigo ASC, e.DNI ASC
+        </query>
+    </named-query>
+
+    <named-query name="Empleado.findAllByBancoCodigo">
+        <query>
+        SELECT e
+        FROM Empleado e
+        WHERE e.banco.codigo = ?1
+        ORDER BY e.DNI ASC
+        </query>
+    </named-query>
+
+    <named-query name="Empleado.findAllByCargo">
+        <query>
+        SELECT ed
+        FROM Directivo ed
+            JOIN Empleado e ON e.id = ed.id
+        WHERE ed.cargo = ?1
+        ORDER BY e.banco.codigo ASC, e.DNI ASC
+        </query>
     </named-query>
 
 </entity-mappings>
