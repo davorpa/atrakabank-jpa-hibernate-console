@@ -1,7 +1,6 @@
 package ui.menu.ladron;
 
-import static util.console.Console.println;
-
+import ui.ConsoleUI;
 import ui.menu.ladron.action.AtracarSucursalAction;
 import ui.menu.ladron.action.EntrarEnBandaAction;
 import ui.menu.ladron.action.SalirDeBandaAction;
@@ -21,9 +20,7 @@ public class LadronMenu extends BaseMenu {
 	@Override
 	protected void printMenuHeader() {
 		super.printMenuHeader();
-		println("╔═════════════════════════════════════════════════════════════════════════════╗");
-		println("╠═══╣►►►►►►►►►►        MENÚ LADRÓN                              ◄◄◄◄◄◄◄◄◄◄╠═══╣");
-		println("╚═════════════════════════════════════════════════════════════════════════════╝");
+		ConsoleUI.printHeader("MENÚ LADRÓN");
 	}
 
 }

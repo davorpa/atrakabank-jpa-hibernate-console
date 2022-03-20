@@ -1,7 +1,6 @@
 package ui.menu.administrador;
 
-import static util.console.Console.println;
-
+import ui.ConsoleUI;
 import ui.menu.administrador.action.AsociarSucursalAction;
 import ui.menu.administrador.action.EliminarSucursalAction;
 import ui.menu.administrador.action.VerSucursalesAction;
@@ -24,9 +23,7 @@ public class AdministradorMenu extends BaseMenu {
 	@Override
 	protected void printMenuHeader() {
 		super.printMenuHeader();
-		println("╔═════════════════════════════════════════════════════════════════════════════╗");
-		println("╠═══╣►►►►►►►►►►        MENÚ ADMINISTRADOR                       ◄◄◄◄◄◄◄◄◄◄╠═══╣");
-		println("╚═════════════════════════════════════════════════════════════════════════════╝");
+		ConsoleUI.printHeader("MENÚ ADMINISTRADOR");
 	}
 
 }

@@ -1,7 +1,6 @@
 package ui.menu;
 
-import static util.console.Console.println;
-
+import ui.ConsoleUI;
 import ui.menu.administrador.AdministradorMenu;
 import ui.menu.ladron.LadronMenu;
 import ui.menu.trabajador.TrabajadorMenu;
@@ -21,9 +20,7 @@ public class MainMenu extends BaseMenu {
 	@Override
 	protected void printMenuHeader() {
 		super.printMenuHeader();
-		println("╔═════════════════════════════════════════════════════════════════════════════╗");
-		println("╠═══╣►►►►►►►►►►        MENÚ PRINCIPAL                           ◄◄◄◄◄◄◄◄◄◄╠═══╣");
-		println("╚═════════════════════════════════════════════════════════════════════════════╝");
+		ConsoleUI.printHeader("MENÚ PRINCIPAL");
 	}
 
 }

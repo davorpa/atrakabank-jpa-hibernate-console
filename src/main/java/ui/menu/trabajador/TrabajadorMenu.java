@@ -1,7 +1,6 @@
 package ui.menu.trabajador;
 
-import static util.console.Console.println;
-
+import ui.ConsoleUI;
 import ui.menu.administrador.action.VerSucursalesAction;
 import ui.menu.trabajador.action.VerDirectivosPorCargoAction;
 import ui.menu.trabajador.action.VerEmpleadosBancoAction;
@@ -22,9 +21,7 @@ public class TrabajadorMenu extends BaseMenu {
 	@Override
 	protected void printMenuHeader() {
 		super.printMenuHeader();
-		println("╔═════════════════════════════════════════════════════════════════════════════╗");
-		println("╠═══╣►►►►►►►►►►        MENÚ TRABAJADOR                          ◄◄◄◄◄◄◄◄◄◄╠═══╣");
-		println("╚═════════════════════════════════════════════════════════════════════════════╝");
+		ConsoleUI.printHeader("MENÚ TRABAJADOR");
 	}
 
 }
